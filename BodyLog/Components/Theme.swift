@@ -5,22 +5,24 @@ import SwiftUI
 
 enum BLTheme {
 
-    // MARK: - Colors
+    // MARK: - Colors (Adaptive: light / dark)
 
     /// Primary accent: mint/emerald green
     static let accent = Color(red: 0.30, green: 0.78, blue: 0.55) // #4DC78C
     /// Light accent for selected backgrounds
     static let accentLight = Color(red: 0.30, green: 0.78, blue: 0.55).opacity(0.15)
-    /// Background: warm off-white
-    static let background = Color(red: 0.965, green: 0.965, blue: 0.975) // #F7F7F9
-    /// Card background: pure white
-    static let cardBackground = Color.white
+
+    /// Background
+    static let background = Color("Background", bundle: nil)
+    /// Card background
+    static let cardBackground = Color("CardBackground", bundle: nil)
     /// Text primary
-    static let textPrimary = Color(red: 0.10, green: 0.10, blue: 0.12)
+    static let textPrimary = Color("TextPrimary", bundle: nil)
     /// Text secondary
-    static let textSecondary = Color(red: 0.55, green: 0.55, blue: 0.58)
+    static let textSecondary = Color("TextSecondary", bundle: nil)
     /// Text tertiary
-    static let textTertiary = Color(red: 0.75, green: 0.75, blue: 0.78)
+    static let textTertiary = Color("TextTertiary", bundle: nil)
+
     /// Danger/destructive
     static let danger = Color(red: 0.90, green: 0.30, blue: 0.30)
     /// Success
@@ -29,10 +31,11 @@ enum BLTheme {
     static let streak = Color(red: 1.0, green: 0.60, blue: 0.20)
     /// Dark green for buttons
     static let darkGreen = Color(red: 0.18, green: 0.28, blue: 0.22)
+
     /// Input background
-    static let inputBg = Color(red: 0.94, green: 0.94, blue: 0.96)
+    static let inputBg = Color("InputBg", bundle: nil)
     /// Border
-    static let border = Color(red: 0.90, green: 0.90, blue: 0.92)
+    static let border = Color("Border", bundle: nil)
 
     // MARK: - Typography (Serif + Sans mix)
 
