@@ -27,6 +27,8 @@
 		<key>UISceneConfigurations</key>
 		<dict/>
 	</dict>
+	<key>CFBundleDisplayName</key>
+	<string>BodyLog</string>
 	<key>NSCameraUsageDescription</key>
 	<string>BodyLog needs camera access to take progress photos.</string>
 	<key>NSPhotoLibraryUsageDescription</key>

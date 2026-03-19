@@ -1,0 +1,68 @@
+═══════════════════════════════════════════
+  BODYLOG — App Store Connect Metadata
+  Target: US & Europe
+═══════════════════════════════════════════
+
+APP NAME:        BodyLog
+SUBTITLE:        Track With Your Photo
+BUNDLE ID:       com.bodylog.app
+CATEGORY:        Health & Fitness
+AGE RATING:      4+
+
+───────────────────────────────────────────
+  KEYWORDS (100 char max)
+───────────────────────────────────────────
+weight tracker,body progress,before after,photo compare,diet log,fitness journal,transformation,scale
+
+(98 characters)
+
+───────────────────────────────────────────
+  DESCRIPTION (EN - US/Europe)
+───────────────────────────────────────────
+Track your weight. Snap your progress. See the difference.
+
+BodyLog is the simplest way to follow your body transformation journey. Log your daily weight, take progress photos, and compare them side by side to see how far you've come.
+
+YOUR DAILY WEIGHT, BEAUTIFULLY CHARTED
+Tap once to log today's weight. Watch your trend unfold on a clean, interactive chart. Switch between 7-day, 30-day, and all-time views.
+
+BEFORE & AFTER — SIDE BY SIDE
+Take Front, Side, and Back photos. Then slide the divider to reveal your transformation. This is the moment that keeps you going.
+
+COMPARE ANY TWO PHOTOS
+Pick any two dates, same pose, and see them together full-screen. Share your progress with one tap.
+
+STAY CONSISTENT
+Set a daily reminder. Track your streak. Small habits lead to big changes.
+
+BUILT FOR SIMPLICITY
+No complicated features. No social feeds. No ads. Just you and your progress.
+
+BODYLOG PRO
+Start with a free 3-day trial. Then unlock unlimited photos, full history, and advanced comparisons with a subscription.
+
+• $2.99/month or $19.99 one-time purchase
+• Payment charged to Apple ID at confirmation
+• Subscription auto-renews unless cancelled 24 hours before period end
+• Manage in Settings > Apple ID > Subscriptions
+
+Privacy Policy: [URL]
+Terms of Use: [URL]
+
+───────────────────────────────────────────
+  PROMOTIONAL TEXT (170 char max)
+───────────────────────────────────────────
+See your transformation like never before. Log weight, snap progress photos, and slide to compare — all in one beautifully simple app.
+
+(137 characters)
+
+───────────────────────────────────────────
+  WHAT'S NEW (v1.0)
+───────────────────────────────────────────
+Welcome to BodyLog! Start tracking your body transformation today.
+
+• Daily weight logging with beautiful charts
+• Progress photos with Front, Side, and Back poses
+• Before & After photo comparison with slide divider
+• Daily reminders to keep your streak alive
+• Dark mode support
