@@ -16,10 +16,12 @@
 		5410091ACAAB9408FF04FD9A /* PhotoEntry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B18754F83DFB26BBDEEA540 /* PhotoEntry.swift */; };
 		585BFB27CB6850F0E5CFD6A8 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B14F76B6A29B815B3B3BFC7D /* SettingsView.swift */; };
 		5AD5782A66BE28B60C6964CA /* DashboardViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2484C624AE9D542EA53CDE71 /* DashboardViewModel.swift */; };
+		672329DCB34818F35DC75690 /* RatingManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F518432711D5D8B18099DCDA /* RatingManager.swift */; };
 		688476F1D0B7FC3BC8D37F16 /* RevenueCat in Frameworks */ = {isa = PBXBuildFile; productRef = 1FF6A4CD418068D6239518F5 /* RevenueCat */; };
 		699D43F9E37B4C7E1445690A /* Date+Helpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CD6B972D96D0E576E1575CF /* Date+Helpers.swift */; };
 		6B020D6EC55796628FAD6E47 /* NotificationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2753BC41D3B378971EC36F7E /* NotificationManager.swift */; };
 		77BC81FF96D344F0D501210E /* DashboardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F24C89EB940AFD4ADF0EBA1 /* DashboardView.swift */; };
+		87DC60BB9DD52E162418BA96 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = 6D5FA73DCB7CD243C758EC33 /* PrivacyInfo.xcprivacy */; };
 		9EA019EC21E97A4E02C949EE /* BodyLogApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = D90A060582E812935FB8B890 /* BodyLogApp.swift */; };
 		9F7DA1E901302DE845B39278 /* AddWeightSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADD9A27A8C1A1F20A9FF6F5F /* AddWeightSheet.swift */; };
 		C929A5C34A254F9AAEF25E50 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F8A8F84FA2C32BAEA913DDD8 /* Assets.xcassets */; };
@@ -47,6 +49,7 @@
 		4B5E8405400EFF98C6533107 /* BodyLog.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = BodyLog.entitlements; sourceTree = "<group>"; };
 		4F24C89EB940AFD4ADF0EBA1 /* DashboardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DashboardView.swift; sourceTree = "<group>"; };
 		552C3244DD4E687076A2960D /* BodyLog.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = BodyLog.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		6D5FA73DCB7CD243C758EC33 /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
 		76ED5CFA1BCE8987D76ECA83 /* PhotosView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotosView.swift; sourceTree = "<group>"; };
 		7B18754F83DFB26BBDEEA540 /* PhotoEntry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoEntry.swift; sourceTree = "<group>"; };
 		7B679A2CE435AE5DA9B9B665 /* UserSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserSettings.swift; sourceTree = "<group>"; };
@@ -59,6 +62,7 @@
 		D90A060582E812935FB8B890 /* BodyLogApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BodyLogApp.swift; sourceTree = "<group>"; };
 		DF87475F0FFE93A8C256C490 /* AppViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppViewModel.swift; sourceTree = "<group>"; };
 		EA982D289FF913E640CD829E /* Config.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Config.swift; sourceTree = "<group>"; };
+		F518432711D5D8B18099DCDA /* RatingManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RatingManager.swift; sourceTree = "<group>"; };
 		F8A8F84FA2C32BAEA913DDD8 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		FC3BD166B02B7D3D53DBD517 /* WeightEntry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeightEntry.swift; sourceTree = "<group>"; };
 		FDC105BA6E41CCCCD6B3C3B0 /* OnboardingContainerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingContainerView.swift; sourceTree = "<group>"; };
@@ -90,6 +94,7 @@
 				F8A8F84FA2C32BAEA913DDD8 /* Assets.xcassets */,
 				4B5E8405400EFF98C6533107 /* BodyLog.entitlements */,
 				34DF8EF38F46A7B9BA715116 /* Info.plist */,
+				6D5FA73DCB7CD243C758EC33 /* PrivacyInfo.xcprivacy */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -118,6 +123,7 @@
 				32FFEE15A4D2B8A38B6A3410 /* EntitlementManager.swift */,
 				2753BC41D3B378971EC36F7E /* NotificationManager.swift */,
 				17DF0A3A476E8578CD7A6E65 /* PhotoStorageManager.swift */,
+				F518432711D5D8B18099DCDA /* RatingManager.swift */,
 			);
 			path = Managers;
 			sourceTree = "<group>";
@@ -281,6 +287,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				C929A5C34A254F9AAEF25E50 /* Assets.xcassets in Resources */,
+				87DC60BB9DD52E162418BA96 /* PrivacyInfo.xcprivacy in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -310,6 +317,7 @@
 				5410091ACAAB9408FF04FD9A /* PhotoEntry.swift in Sources */,
 				15668B69C06A3AC8F1AED6DE /* PhotoStorageManager.swift in Sources */,
 				F2C4511B1FFD84EC6F9001CE /* PhotosView.swift in Sources */,
+				672329DCB34818F35DC75690 /* RatingManager.swift in Sources */,
 				585BFB27CB6850F0E5CFD6A8 /* SettingsView.swift in Sources */,
 				F2750F4BC0414012E76AABD3 /* Theme.swift in Sources */,
 				093D42729680A66FEAE8C334 /* UserSettings.swift in Sources */,

@@ -53,6 +53,14 @@ struct PhotosView: View {
                                     .onTapGesture {
                                         appViewModel.showPhotoDetail(photo)
                                     }
+                                    .onLongPressGesture {
+                                        guard photos.count >= 2 else { return }
+                                        let sorted = photos.sorted { $0.date < $1.date }
+                                        // Use long-pressed photo as "after", oldest as "before"
+                                        let before = sorted.first!
+                                        let after = photo.id == before.id ? sorted.last! : photo
+                                        appViewModel.showPhotoCompare(before: before, after: after)
+                                    }
                             }
                         }
                     }

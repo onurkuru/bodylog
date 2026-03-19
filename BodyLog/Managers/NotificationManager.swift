@@ -33,14 +33,17 @@ final class NotificationManager {
 
     // MARK: - Daily Reminder
 
-    func scheduleDailyReminder(hour: Int, minute: Int) {
+    func scheduleDailyReminder(hour: Int, minute: Int, currentStreak: Int = 0) {
         guard isAuthorized else { return }
-        // Remove existing before scheduling new
         center.removePendingNotificationRequests(withIdentifiers: ["daily_weight_reminder"])
 
         let content = UNMutableNotificationContent()
         content.title = "Time to log your weight"
-        content.body = "Keep your streak going."
+        if currentStreak > 0 {
+            content.body = "Keep your \(currentStreak)-day streak alive!"
+        } else {
+            content.body = "Start building your streak today."
+        }
         content.sound = .default
 
         var dateComponents = DateComponents()
@@ -55,6 +58,12 @@ final class NotificationManager {
         )
 
         center.add(request)
+    }
+
+    /// Cancel today's reminder if user already logged (call after weight save)
+    func suppressTodayIfLogged() {
+        center.removePendingNotificationRequests(withIdentifiers: ["daily_weight_reminder"])
+        // Will be re-scheduled tomorrow via the repeating trigger
     }
 
     func cancelDailyReminder() {

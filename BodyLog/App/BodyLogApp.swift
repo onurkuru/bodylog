@@ -24,5 +24,10 @@ struct BodyLogApp: App {
 
     init() {
         EntitlementManager.shared.configure()
+
+        // Record first launch date for rating prompt
+        if UserDefaults.standard.object(forKey: "firstLaunchDate") == nil {
+            UserDefaults.standard.set(Date.now, forKey: "firstLaunchDate")
+        }
     }
 }

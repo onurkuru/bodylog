@@ -126,6 +126,11 @@ struct AddWeightSheet: View {
             modelContext.insert(entry)
         }
 
+        // Suppress today's notification since user logged
+        if selectedDate.isToday {
+            NotificationManager.shared.suppressTodayIfLogged()
+        }
+
         let generator = UINotificationFeedbackGenerator()
         generator.notificationOccurred(.success)
         dismiss()
