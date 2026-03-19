@@ -31,15 +31,15 @@ final class PhotoStorageManager {
         let photoName = "photo_\(id).jpg"
         let thumbName = "thumb_\(id).jpg"
 
-        // Full: max 1200px long edge, JPEG 0.85
-        guard let fullImage = resized(image, maxDimension: 1200),
-              let fullData = fullImage.jpegData(compressionQuality: 0.85) else {
+        // Full: max long edge, JPEG quality from Config
+        guard let fullImage = resized(image, maxDimension: Config.photoMaxDimension),
+              let fullData = fullImage.jpegData(compressionQuality: Config.photoCompressionQuality) else {
             return nil
         }
 
-        // Thumbnail: max 300px long edge, JPEG 0.7
-        guard let thumbImage = resized(image, maxDimension: 300),
-              let thumbData = thumbImage.jpegData(compressionQuality: 0.7) else {
+        // Thumbnail: max long edge, JPEG quality from Config
+        guard let thumbImage = resized(image, maxDimension: Config.thumbMaxDimension),
+              let thumbData = thumbImage.jpegData(compressionQuality: Config.thumbCompressionQuality) else {
             return nil
         }
 

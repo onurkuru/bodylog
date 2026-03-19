@@ -6,7 +6,9 @@ struct PhotosView: View {
     @Environment(EntitlementManager.self) private var entitlementManager
     @Environment(\.modelContext) private var modelContext
     @Query(sort: \PhotoEntry.date, order: .reverse) private var photos: [PhotoEntry]
+    @Query private var settingsArray: [UserSettings]
 
+    private var unit: WeightUnit { settingsArray.first?.unitPreference ?? .kg }
     private let columns = [
         GridItem(.flexible(), spacing: 10),
         GridItem(.flexible(), spacing: 10)
@@ -49,17 +51,15 @@ struct PhotosView: View {
                         // Grid
                         LazyVGrid(columns: columns, spacing: 10) {
                             ForEach(photos) { photo in
-                                PhotoGridCell(photo: photo)
+                                PhotoGridCell(photo: photo, unit: unit)
                                     .onTapGesture {
                                         appViewModel.showPhotoDetail(photo)
                                     }
                                     .onLongPressGesture {
-                                        guard photos.count >= 2 else { return }
                                         let sorted = photos.sorted { $0.date < $1.date }
-                                        // Use long-pressed photo as "after", oldest as "before"
-                                        let before = sorted.first!
-                                        let after = photo.id == before.id ? sorted.last! : photo
-                                        appViewModel.showPhotoCompare(before: before, after: after)
+                                        guard let first = sorted.first, let last = sorted.last, sorted.count >= 2 else { return }
+                                        let after = photo.id == first.id ? last : photo
+                                        appViewModel.showPhotoCompare(before: first, after: after)
                                     }
                             }
                         }
@@ -105,7 +105,8 @@ struct PhotosView: View {
         let sorted = photos.sorted { $0.date < $1.date }
         guard sorted.count >= 2 else { return }
         // Both free and pro: oldest vs newest (free can only see these two)
-        appViewModel.showPhotoCompare(before: sorted.first!, after: sorted.last!)
+        guard let first = sorted.first, let last = sorted.last else { return }
+        appViewModel.showPhotoCompare(before: first, after: last)
     }
 }
 
@@ -113,6 +114,7 @@ struct PhotosView: View {
 
 struct PhotoGridCell: View {
     let photo: PhotoEntry
+    let unit: WeightUnit
     @State private var thumbnail: UIImage?
 
     var body: some View {
@@ -135,7 +137,7 @@ struct PhotoGridCell: View {
                 Text(photo.date.shortFormatted)
                     .font(BLTheme.bodyBold(12))
                 if let w = photo.linkedWeight {
-                    Text(String(format: "%.1f kg", w))
+                    Text(w.formattedWithUnit(unit))
                         .font(BLTheme.bodyBold(11))
                 }
                 Text(photo.pose.rawValue)

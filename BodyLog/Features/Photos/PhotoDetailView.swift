@@ -5,9 +5,11 @@ struct PhotoDetailView: View {
     @Environment(AppViewModel.self) private var appViewModel
     @Environment(\.modelContext) private var modelContext
     @Environment(\.dismiss) private var dismiss
+    @Query private var settingsArray: [UserSettings]
 
     let entry: PhotoEntry
 
+    private var unit: WeightUnit { settingsArray.first?.unitPreference ?? .kg }
     @State private var fullImage: UIImage?
     @State private var showDeleteAlert = false
 
@@ -67,7 +69,7 @@ struct PhotoDetailView: View {
                         if let weight = entry.linkedWeight {
                             Text("•")
                                 .foregroundStyle(.white.opacity(0.4))
-                            Text(String(format: "%.1f kg", weight))
+                            Text(weight.formattedWithUnit(unit))
                                 .font(.subheadline.bold())
                                 .foregroundStyle(.white.opacity(0.8))
                         }

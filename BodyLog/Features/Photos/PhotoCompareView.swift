@@ -7,6 +7,7 @@ struct PhotoCompareView: View {
     @Environment(\.dismiss) private var dismiss
     @Query(sort: \PhotoEntry.date, order: .forward) private var allPhotos: [PhotoEntry]
     @Query private var weightEntries: [WeightEntry]
+    @Query private var settingsArray: [UserSettings]
 
     let beforeEntry: PhotoEntry
     let afterEntry: PhotoEntry
@@ -22,6 +23,8 @@ struct PhotoCompareView: View {
     @State private var showUpgradeHint = false
     @State private var upgradeHintTask: Task<Void, Never>?
     @State private var selectedPose: Pose? = nil // nil = all poses
+
+    private var unit: WeightUnit { settingsArray.first?.unitPreference ?? .kg }
 
     // Filtered photos by pose
     private var filteredPhotos: [PhotoEntry] {
@@ -248,7 +251,7 @@ struct PhotoCompareView: View {
                     HStack {
                         Text(photo.date.shortFormatted)
                         if let w = photo.linkedWeight {
-                            Text("— \(String(format: "%.1f", w)) kg")
+                            Text("— \(w.formattedWithUnit(unit))")
                         }
                         Text("(\(photo.pose.rawValue))")
                         if photo.id == current?.id {
@@ -293,7 +296,7 @@ struct PhotoCompareView: View {
                 Text(currentBefore?.date.shortFormatted ?? "—")
                     .font(.caption.bold()).foregroundStyle(.white)
                 if let w = currentBefore?.linkedWeight {
-                    Text(String(format: "%.1f kg", w))
+                    Text(w.formattedWithUnit(unit))
                         .font(.caption.bold()).foregroundStyle(.white.opacity(0.8))
                 }
             }
@@ -305,7 +308,7 @@ struct PhotoCompareView: View {
                 Text(currentAfter?.date.shortFormatted ?? "—")
                     .font(.caption.bold()).foregroundStyle(.white)
                 if let w = currentAfter?.linkedWeight {
-                    Text(String(format: "%.1f kg", w))
+                    Text(w.formattedWithUnit(unit))
                         .font(.caption.bold()).foregroundStyle(.white.opacity(0.8))
                 }
             }
@@ -314,7 +317,7 @@ struct PhotoCompareView: View {
             // Weight delta
             if let bw = currentBefore?.linkedWeight, let aw = currentAfter?.linkedWeight {
                 let delta = aw - bw
-                Text("\(delta >= 0 ? "+" : "")\(String(format: "%.1f", delta)) kg")
+                Text("\(delta >= 0 ? "+" : "")\(delta.formattedWithUnit(unit))")
                     .font(.caption.bold())
                     .foregroundStyle(delta <= 0 ? BLTheme.success : BLTheme.danger)
                     .padding(.horizontal, 8).padding(.vertical, 4)
@@ -383,6 +386,7 @@ struct PhotoCompareView: View {
                 afterDate: currentAfter?.date.shortFormatted ?? "",
                 beforeWeight: currentBefore?.linkedWeight,
                 afterWeight: currentAfter?.linkedWeight,
+                unit: unit,
                 showWatermark: !entitlementManager.isPro
             )
         )
@@ -427,6 +431,7 @@ private struct ComparisonShareView: View {
     let afterDate: String
     let beforeWeight: Double?
     let afterWeight: Double?
+    let unit: WeightUnit
     let showWatermark: Bool
 
     var body: some View {
@@ -437,7 +442,7 @@ private struct ComparisonShareView: View {
                         .frame(width: 300, height: 400).clipped()
                     Text(beforeDate).font(.caption.bold()).foregroundStyle(.white)
                     if let w = beforeWeight {
-                        Text(String(format: "%.1f kg", w)).font(.caption2).foregroundStyle(.white.opacity(0.7))
+                        Text(w.formattedWithUnit(unit)).font(.caption2).foregroundStyle(.white.opacity(0.7))
                     }
                 }
                 VStack(spacing: 4) {
@@ -445,7 +450,7 @@ private struct ComparisonShareView: View {
                         .frame(width: 300, height: 400).clipped()
                     Text(afterDate).font(.caption.bold()).foregroundStyle(.white)
                     if let w = afterWeight {
-                        Text(String(format: "%.1f kg", w)).font(.caption2).foregroundStyle(.white.opacity(0.7))
+                        Text(w.formattedWithUnit(unit)).font(.caption2).foregroundStyle(.white.opacity(0.7))
                     }
                 }
             }
@@ -453,7 +458,7 @@ private struct ComparisonShareView: View {
             // Weight delta
             if let bw = beforeWeight, let aw = afterWeight {
                 let delta = aw - bw
-                Text("\(delta >= 0 ? "+" : "")\(String(format: "%.1f", delta)) kg")
+                Text("\(delta >= 0 ? "+" : "")\(delta.formattedWithUnit(unit))")
                     .font(.caption.bold())
                     .foregroundStyle(delta <= 0 ? .green : .red)
                     .padding(.top, 6)
