@@ -370,14 +370,7 @@ struct GoalWeightSheet: View {
             BLTheme.background.ignoresSafeArea()
             VStack(spacing: BLTheme.spacingLG) {
                 HStack {
-                    Button { dismiss() } label: {
-                        Image(systemName: "xmark")
-                            .font(.system(size: 14, weight: .semibold))
-                            .foregroundStyle(BLTheme.textSecondary)
-                            .frame(width: 32, height: 32)
-                            .background(BLTheme.cardBackground)
-                            .clipShape(Circle())
-                    }
+                    BLDismissButton { dismiss() }
                     Spacer()
                 }
                 .padding(.horizontal, BLTheme.spacingLG)
@@ -441,14 +434,7 @@ struct NotificationPickerSheet: View {
             BLTheme.background.ignoresSafeArea()
             VStack {
                 HStack {
-                    Button { dismiss() } label: {
-                        Image(systemName: "xmark")
-                            .font(.system(size: 14, weight: .semibold))
-                            .foregroundStyle(BLTheme.textSecondary)
-                            .frame(width: 32, height: 32)
-                            .background(BLTheme.cardBackground)
-                            .clipShape(Circle())
-                    }
+                    BLDismissButton { dismiss() }
                     Spacer()
                 }
                 .padding(.horizontal, BLTheme.spacingLG)

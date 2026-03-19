@@ -175,6 +175,21 @@ struct BLStepIndicator: View {
     }
 }
 
+/// Dismiss button (xmark circle, used in sheet headers)
+struct BLDismissButton: View {
+    let action: () -> Void
+    var body: some View {
+        Button(action: action) {
+            Image(systemName: "xmark")
+                .font(.system(size: 14, weight: .semibold))
+                .foregroundStyle(BLTheme.textSecondary)
+                .frame(width: 32, height: 32)
+                .background(BLTheme.cardBackground)
+                .clipShape(Circle())
+        }
+    }
+}
+
 /// Selection pill card
 struct BLSelectionPill<Content: View>: View {
     let isSelected: Bool

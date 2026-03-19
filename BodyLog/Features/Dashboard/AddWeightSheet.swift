@@ -22,14 +22,7 @@ struct AddWeightSheet: View {
             VStack(spacing: BLTheme.spacingLG) {
                 // Header
                 HStack {
-                    Button { dismiss() } label: {
-                        Image(systemName: "xmark")
-                            .font(.system(size: 14, weight: .semibold))
-                            .foregroundStyle(BLTheme.textSecondary)
-                            .frame(width: 32, height: 32)
-                            .background(BLTheme.cardBackground)
-                            .clipShape(Circle())
-                    }
+                    BLDismissButton { dismiss() }
                     Spacer()
                     DatePicker("", selection: $selectedDate, displayedComponents: .date)
                         .labelsHidden()
@@ -102,18 +95,16 @@ struct AddWeightSheet: View {
 
     private func prefillLastWeight() {
         if let last = entries.first {
-            let displayWeight = unit == .lbs ? last.weight.toLbs : last.weight
-            let rounded = (displayWeight * 10).rounded() / 10
-            weightWhole = Int(rounded)
-            weightDecimal = Int((rounded - Double(Int(rounded))) * 10)
+            let (w, d) = last.weight.toPickerComponents(unit: unit)
+            weightWhole = w
+            weightDecimal = d
         } else if unit == .lbs {
             weightWhole = 154
         }
     }
 
     private func save() {
-        let displayValue = Double(weightWhole) + Double(weightDecimal) / 10.0
-        let weightInKg = unit == .lbs ? displayValue.toKg : displayValue
+        let weightInKg = Double.fromPicker(whole: weightWhole, decimal: weightDecimal, unit: unit)
         let noteValue = note.isEmpty ? nil : note
         let behavior = settingsArray.first?.dailyEntryBehavior ?? .addNew
 
@@ -160,14 +151,7 @@ struct EditWeightSheet: View {
             VStack(spacing: BLTheme.spacingLG) {
                 // Header
                 HStack {
-                    Button { dismiss() } label: {
-                        Image(systemName: "xmark")
-                            .font(.system(size: 14, weight: .semibold))
-                            .foregroundStyle(BLTheme.textSecondary)
-                            .frame(width: 32, height: 32)
-                            .background(BLTheme.cardBackground)
-                            .clipShape(Circle())
-                    }
+                    BLDismissButton { dismiss() }
                     Spacer()
                     Text(entry.date.mediumFormatted)
                         .font(BLTheme.bodyBold())
@@ -244,18 +228,16 @@ struct EditWeightSheet: View {
             Button("Cancel", role: .cancel) {}
         }
         .onAppear {
-            let displayWeight = unit == .lbs ? entry.weight.toLbs : entry.weight
-            let rounded = (displayWeight * 10).rounded() / 10
-            weightWhole = Int(rounded)
-            weightDecimal = Int((rounded - Double(Int(rounded))) * 10)
+            let (w, d) = entry.weight.toPickerComponents(unit: unit)
+            weightWhole = w
+            weightDecimal = d
             note = entry.note ?? ""
         }
         .presentationDetents([.large])
     }
 
     private func saveEdit() {
-        let displayValue = Double(weightWhole) + Double(weightDecimal) / 10.0
-        entry.weight = unit == .lbs ? displayValue.toKg : displayValue
+        entry.weight = Double.fromPicker(whole: weightWhole, decimal: weightDecimal, unit: unit)
         entry.note = note.isEmpty ? nil : note
         dismiss()
     }

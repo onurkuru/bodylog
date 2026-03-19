@@ -198,8 +198,7 @@ struct DashboardView: View {
 
     private func changeText(_ stats: WeightStats) -> String {
         guard let c = stats.change else { return "—" }
-        let v = unit == .lbs ? c.toLbs : c
-        return "\(v > 0 ? "+" : "")\(String(format: "%.1f", v))"
+        return c.formattedWithSign(unit: unit)
     }
 
     private func changeColor(_ stats: WeightStats) -> Color {

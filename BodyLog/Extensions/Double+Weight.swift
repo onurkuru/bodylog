@@ -21,4 +21,25 @@ extension Double {
     func formattedWithUnit(_ unit: WeightUnit) -> String {
         "\(formatted(unit: unit)) \(unit.rawValue)"
     }
+
+    /// Split a kg value into picker components for the given display unit
+    func toPickerComponents(unit: WeightUnit) -> (whole: Int, decimal: Int) {
+        let display = unit == .lbs ? self.toLbs : self
+        let rounded = (display * 10).rounded() / 10
+        let whole = Int(rounded)
+        let decimal = Int((rounded - Double(whole)) * 10)
+        return (whole, decimal)
+    }
+
+    /// Reassemble picker components back into kg
+    static func fromPicker(whole: Int, decimal: Int, unit: WeightUnit) -> Double {
+        let display = Double(whole) + Double(decimal) / 10.0
+        return unit == .lbs ? display.toKg : display
+    }
+
+    /// Format with sign prefix (e.g. "+2.3" or "-1.5")
+    func formattedWithSign(unit: WeightUnit) -> String {
+        let text = formatted(unit: unit)
+        return self > 0 ? "+\(text)" : text
+    }
 }
