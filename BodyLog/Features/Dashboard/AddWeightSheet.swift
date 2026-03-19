@@ -126,14 +126,6 @@ struct AddWeightSheet: View {
             modelContext.insert(entry)
         }
 
-        WidgetDataStore.update(
-            lastWeight: weightInKg,
-            unit: unit,
-            streak: 0,
-            entryDate: selectedDate,
-            goalWeight: settingsArray.first?.goalWeight
-        )
-
         let generator = UINotificationFeedbackGenerator()
         generator.notificationOccurred(.success)
         dismiss()

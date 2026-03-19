@@ -33,8 +33,6 @@ struct DashboardView: View {
                 .padding(.bottom, BLTheme.spacingXL)
             }
         }
-        .onChange(of: entries.count) { updateWidgetData() }
-        .onChange(of: entries.first?.weight) { updateWidgetData() }
     }
 
     // MARK: - Header
@@ -234,10 +232,6 @@ struct DashboardView: View {
         }
     }
 
-    private func updateWidgetData() {
-        guard let latest = entries.first else { return }
-        WidgetDataStore.update(lastWeight: latest.weight, unit: unit, streak: viewModel.calculateStreak(from: entries), entryDate: latest.date, goalWeight: settings?.goalWeight)
-    }
 }
 
 struct StreakBadgeView: View { let streak: Int; var body: some View { EmptyView() } }

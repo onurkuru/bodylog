@@ -339,7 +339,6 @@ struct SettingsView: View {
                 modelContext.delete(photo)
             }
         }
-        WidgetDataStore.update(lastWeight: 0, unit: .kg, streak: 0, entryDate: .now, goalWeight: nil)
     }
 
     private func requestReview() {
