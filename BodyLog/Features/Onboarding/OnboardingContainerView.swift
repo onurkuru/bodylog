@@ -36,13 +36,16 @@ struct OnboardingContainerView: View {
                         .tag(2)
                 }
                 .tabViewStyle(.page(indexDisplayMode: .never))
-                .animation(.easeInOut(duration: 0.3), value: currentPage)
             }
         }
     }
 
     private func nextPage() {
-        if currentPage < 2 { currentPage += 1 }
+        if currentPage < 2 {
+            withAnimation(.easeInOut(duration: 0.3)) {
+                currentPage += 1
+            }
+        }
     }
 
     private func completeOnboarding() {

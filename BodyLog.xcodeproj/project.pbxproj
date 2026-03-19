@@ -403,7 +403,12 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = BodyLog/Resources/BodyLog.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CURRENT_PROJECT_VERSION = 2;
 				INFOPLIST_FILE = BodyLog/Resources/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = Bodygraph;
+				INFOPLIST_KEY_NSCameraUsageDescription = "Bodygraph needs camera access to take progress photos.";
+				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "Bodygraph needs photo library access to select progress photos.";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -411,6 +416,9 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.bodylog.app;
 				PRODUCT_NAME = BodyLog;
 				SDKROOT = iphoneos;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				TARGETED_DEVICE_FAMILY = 1;
@@ -424,7 +432,12 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = BodyLog/Resources/BodyLog.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CURRENT_PROJECT_VERSION = 2;
 				INFOPLIST_FILE = BodyLog/Resources/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = Bodygraph;
+				INFOPLIST_KEY_NSCameraUsageDescription = "Bodygraph needs camera access to take progress photos.";
+				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "Bodygraph needs photo library access to select progress photos.";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -432,6 +445,9 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.bodylog.app;
 				PRODUCT_NAME = BodyLog;
 				SDKROOT = iphoneos;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				TARGETED_DEVICE_FAMILY = 1;

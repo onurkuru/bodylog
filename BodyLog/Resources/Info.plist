@@ -15,11 +15,6 @@
 			</array>
 		</dict>
 	</array>
-	<key>UILaunchScreen</key>
-	<dict>
-		<key>UIColorName</key>
-		<string>AccentColor</string>
-	</dict>
 	<key>UIApplicationSceneManifest</key>
 	<dict>
 		<key>UIApplicationSupportsMultipleScenes</key>
@@ -27,11 +22,10 @@
 		<key>UISceneConfigurations</key>
 		<dict/>
 	</dict>
-	<key>CFBundleDisplayName</key>
-	<string>Bodygraph</string>
-	<key>NSCameraUsageDescription</key>
-	<string>Bodygraph needs camera access to take progress photos.</string>
-	<key>NSPhotoLibraryUsageDescription</key>
-	<string>Bodygraph needs photo library access to select progress photos.</string>
+	<key>UILaunchScreen</key>
+	<dict>
+		<key>UIColorName</key>
+		<string>AccentColor</string>
+	</dict>
 </dict>
 </plist>
