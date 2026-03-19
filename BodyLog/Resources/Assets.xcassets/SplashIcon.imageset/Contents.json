@@ -4,6 +4,17 @@
       "filename" : "SplashIcon.png",
       "idiom" : "universal",
       "scale" : "1x"
+    },
+    {
+      "appearances" : [
+        {
+          "appearance" : "luminosity",
+          "value" : "dark"
+        }
+      ],
+      "filename" : "SplashIcon-dark.png",
+      "idiom" : "universal",
+      "scale" : "1x"
     }
   ],
   "info" : {
