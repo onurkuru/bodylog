@@ -12,9 +12,22 @@ AGE RATING:      4+
 ───────────────────────────────────────────
   KEYWORDS (100 char max)
 ───────────────────────────────────────────
-weight tracker,body progress,before after,photo compare,diet log,fitness journal,transformation,scale
+weight loss,before after,progress pics,diet journal,body transformation,scale log,fitness,gym,streak
 
-(98 characters)
+(99 characters)
+
+ASO NOTES:
+- "Bodygraph" (name) covers: body, graph
+- "Track With Your Photo" (subtitle) covers: track, photo
+- Keywords avoid repeating name/subtitle words
+- "weight loss" = highest volume fitness keyword
+- "before after" = hero feature, high intent
+- "progress pics" = common search phrase
+- "diet journal" = adjacent audience capture
+- "body transformation" = aspirational, high volume
+- "scale log" = functional, low competition
+- "fitness" + "gym" = broad category reach
+- "streak" = engagement feature, habit trackers
 
 ───────────────────────────────────────────
   DESCRIPTION (EN - US/Europe)
@@ -31,6 +44,9 @@ Take Front, Side, and Back photos. Then slide the divider to reveal your transfo
 
 COMPARE ANY TWO PHOTOS
 Pick any two dates, same pose, and see them together full-screen. Share your progress with one tap.
+
+DAY 1 vs TODAY
+See your full transformation at a glance. Your oldest and newest photos appear side by side with weight change and days tracked — right at the top of your timeline.
 
 STAY CONSISTENT
 Set a daily reminder. Track your streak. Small habits lead to big changes.
@@ -64,5 +80,38 @@ Welcome to Bodygraph! Start tracking your body transformation today.
 • Daily weight logging with beautiful charts
 • Progress photos with Front, Side, and Back poses
 • Before & After photo comparison with slide divider
+• Day 1 vs Today transformation card
+• Timeline photo organization
 • Daily reminders to keep your streak alive
 • Dark mode support
+
+───────────────────────────────────────────
+  REVENUECAT CONFIGURATION
+───────────────────────────────────────────
+API Key:         appl_ExwOtkcEsCLyodpreHDeBKjCdlx
+Entitlement:     "pro"
+Offering:        "default"
+
+Products needed in App Store Connect:
+  1. com.bodylog.pro_monthly   — Auto-Renewable Sub — $2.99/mo
+  2. com.bodylog.pro_lifetime  — Non-Consumable     — $19.99
+
+RevenueCat packages (in default offering):
+  - $rc_monthly  → com.bodylog.pro_monthly
+  - $rc_lifetime → com.bodylog.pro_lifetime
+
+Both products grant "pro" entitlement.
+
+───────────────────────────────────────────
+  APP STORE CONNECT CHECKLIST
+───────────────────────────────────────────
+[ ] App Information: Name, Subtitle, Category
+[ ] In-App Purchases: Create com.bodylog.pro_monthly ($2.99)
+[ ] In-App Purchases: Create com.bodylog.pro_lifetime ($19.99)
+[ ] Subscriptions: Create subscription group "Bodygraph Pro"
+[ ] Subscriptions: Add com.bodylog.pro_monthly to group
+[ ] App Privacy: Data collection declarations
+[ ] Content Rights: Set up
+[ ] Upload binary via Xcode Archive
+[ ] Screenshots: 6.7" and 6.1" (iPhone 15 Pro Max / iPhone 15 Pro)
+[ ] Review notes: Test account credentials

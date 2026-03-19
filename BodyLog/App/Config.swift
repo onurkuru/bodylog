@@ -2,7 +2,7 @@ import Foundation
 
 enum Config {
     // Replace with your actual RevenueCat API key
-    static let revenueCatKey = "YOUR_KEY_HERE"
+    static let revenueCatKey = "appl_ExwOtkcEsCLyodpreHDeBKjCdlx"
 
     // URL Scheme for deep links
     static let urlScheme = "bodylog"
