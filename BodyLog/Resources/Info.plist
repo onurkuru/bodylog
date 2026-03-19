@@ -28,10 +28,10 @@
 		<dict/>
 	</dict>
 	<key>CFBundleDisplayName</key>
-	<string>BodyLog</string>
+	<string>Bodygraph</string>
 	<key>NSCameraUsageDescription</key>
-	<string>BodyLog needs camera access to take progress photos.</string>
+	<string>Bodygraph needs camera access to take progress photos.</string>
 	<key>NSPhotoLibraryUsageDescription</key>
-	<string>BodyLog needs photo library access to select progress photos.</string>
+	<string>Bodygraph needs photo library access to select progress photos.</string>
 </dict>
 </plist>

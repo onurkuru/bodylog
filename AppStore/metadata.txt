@@ -1,9 +1,9 @@
 ═══════════════════════════════════════════
-  BODYLOG — App Store Connect Metadata
+  BODYGRAPH — App Store Connect Metadata
   Target: US & Europe
 ═══════════════════════════════════════════
 
-APP NAME:        BodyLog
+APP NAME:        Bodygraph
 SUBTITLE:        Track With Your Photo
 BUNDLE ID:       com.bodylog.app
 CATEGORY:        Health & Fitness
@@ -21,7 +21,7 @@ weight tracker,body progress,before after,photo compare,diet log,fitness journal
 ───────────────────────────────────────────
 Track your weight. Snap your progress. See the difference.
 
-BodyLog is the simplest way to follow your body transformation journey. Log your daily weight, take progress photos, and compare them side by side to see how far you've come.
+Bodygraph is the simplest way to follow your body transformation journey. Log your daily weight, take progress photos, and compare them side by side to see how far you've come.
 
 YOUR DAILY WEIGHT, BEAUTIFULLY CHARTED
 Tap once to log today's weight. Watch your trend unfold on a clean, interactive chart. Switch between 7-day, 30-day, and all-time views.
@@ -38,7 +38,7 @@ Set a daily reminder. Track your streak. Small habits lead to big changes.
 BUILT FOR SIMPLICITY
 No complicated features. No social feeds. No ads. Just you and your progress.
 
-BODYLOG PRO
+BODYGRAPH PRO
 Start with a free 3-day trial. Then unlock unlimited photos, full history, and advanced comparisons with a subscription.
 
 • $2.99/month or $19.99 one-time purchase
@@ -59,7 +59,7 @@ See your transformation like never before. Log weight, snap progress photos, and
 ───────────────────────────────────────────
   WHAT'S NEW (v1.0)
 ───────────────────────────────────────────
-Welcome to BodyLog! Start tracking your body transformation today.
+Welcome to Bodygraph! Start tracking your body transformation today.
 
 • Daily weight logging with beautiful charts
 • Progress photos with Front, Side, and Back poses

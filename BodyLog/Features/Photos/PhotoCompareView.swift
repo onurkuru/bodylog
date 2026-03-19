@@ -482,7 +482,7 @@ private struct ComparisonShareView: View {
             }
 
             if showWatermark {
-                Text("Made with BodyLog")
+                Text("Made with Bodygraph")
                     .font(.caption2)
                     .foregroundStyle(.white.opacity(0.6))
                     .padding(.top, 8)

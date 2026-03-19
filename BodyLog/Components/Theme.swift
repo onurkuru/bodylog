@@ -1,6 +1,6 @@
 import SwiftUI
 
-// MARK: - BodyLog Design System
+// MARK: - Bodygraph Design System
 // Editorial serif typography, mint accent, generous whitespace, pill-shaped cards
 
 enum BLTheme {

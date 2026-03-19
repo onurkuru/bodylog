@@ -137,7 +137,7 @@ struct SettingsView: View {
                                 HStack {
                                     Image(systemName: "crown.fill")
                                         .foregroundStyle(.yellow)
-                                    Text("BodyLog Pro")
+                                    Text("Bodygraph Pro")
                                         .font(BLTheme.bodyBold())
                                         .foregroundStyle(BLTheme.textPrimary)
                                     Spacer()
@@ -229,7 +229,7 @@ struct SettingsView: View {
                     BLCard {
                         VStack(spacing: 16) {
                             Button { requestReview() } label: {
-                                settingRowLabel(title: "Rate BodyLog", icon: "star.fill")
+                                settingRowLabel(title: "Rate Bodygraph", icon: "star.fill")
                             }
 
                             Divider().foregroundStyle(BLTheme.background)
@@ -333,7 +333,7 @@ struct SettingsView: View {
             let note = entry.note?.replacingOccurrences(of: ",", with: ";") ?? ""
             csv += "\(date),\(weight),\(note)\n"
         }
-        let tempURL = FileManager.default.temporaryDirectory.appendingPathComponent("BodyLog_Export.csv")
+        let tempURL = FileManager.default.temporaryDirectory.appendingPathComponent("Bodygraph_Export.csv")
         do {
             try csv.write(to: tempURL, atomically: true, encoding: .utf8)
             csvURL = tempURL

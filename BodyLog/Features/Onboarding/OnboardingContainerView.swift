@@ -70,7 +70,7 @@ private struct UnitSelectionPage: View {
                 .font(.system(size: 64))
                 .foregroundStyle(BLTheme.accent)
 
-            Text("Welcome to BodyLog")
+            Text("Welcome to Bodygraph")
                 .font(BLTheme.headlineSerif(28))
                 .foregroundStyle(BLTheme.textPrimary)
                 .padding(.top, BLTheme.spacingLG)
@@ -194,7 +194,7 @@ private struct NotificationPage: View {
                             .font(.system(size: 16))
                     }
                     VStack(alignment: .leading, spacing: 2) {
-                        Text("BodyLog")
+                        Text("Bodygraph")
                             .font(BLTheme.bodyBold(14))
                             .foregroundStyle(BLTheme.textPrimary)
                         Text("Time to log your weight")

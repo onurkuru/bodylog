@@ -208,7 +208,7 @@ struct PaywallSheet: View {
         switch trigger {
         case .trialEnded: "Your Trial\nHas Ended"
         case .onboarding: "Start Your\nFree Trial"
-        default: "Unlock\nBodyLog Pro"
+        default: "Unlock\nBodygraph Pro"
         }
     }
 
