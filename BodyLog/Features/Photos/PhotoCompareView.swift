@@ -169,6 +169,11 @@ struct PhotoCompareView: View {
                 Text(beforeEntry.date.shortFormatted)
                     .font(.caption.bold())
                     .foregroundStyle(.white)
+                if let w = beforeEntry.linkedWeight {
+                    Text(String(format: "%.1f kg", w))
+                        .font(.caption.bold())
+                        .foregroundStyle(.white.opacity(0.8))
+                }
                 Text(beforeEntry.pose.rawValue)
                     .font(.caption2)
                     .foregroundStyle(.white.opacity(0.6))
@@ -177,12 +182,17 @@ struct PhotoCompareView: View {
 
             Rectangle()
                 .fill(.white.opacity(0.3))
-                .frame(width: 1, height: 24)
+                .frame(width: 1, height: 32)
 
             VStack(spacing: 2) {
                 Text(afterEntry.date.shortFormatted)
                     .font(.caption.bold())
                     .foregroundStyle(.white)
+                if let w = afterEntry.linkedWeight {
+                    Text(String(format: "%.1f kg", w))
+                        .font(.caption.bold())
+                        .foregroundStyle(.white.opacity(0.8))
+                }
                 Text(afterEntry.pose.rawValue)
                     .font(.caption2)
                     .foregroundStyle(.white.opacity(0.6))

@@ -59,9 +59,19 @@ struct PhotoDetailView: View {
                         .font(.headline)
                         .foregroundStyle(.white)
 
-                    Text(entry.pose.rawValue)
-                        .font(.subheadline)
-                        .foregroundStyle(.white.opacity(0.7))
+                    HStack(spacing: 12) {
+                        Text(entry.pose.rawValue)
+                            .font(.subheadline)
+                            .foregroundStyle(.white.opacity(0.7))
+
+                        if let weight = entry.linkedWeight {
+                            Text("•")
+                                .foregroundStyle(.white.opacity(0.4))
+                            Text(String(format: "%.1f kg", weight))
+                                .font(.subheadline.bold())
+                                .foregroundStyle(.white.opacity(0.8))
+                        }
+                    }
 
                     if let note = entry.note, !note.isEmpty {
                         Text(note)

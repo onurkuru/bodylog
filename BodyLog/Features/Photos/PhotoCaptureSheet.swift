@@ -6,6 +6,7 @@ struct PhotoCaptureSheet: View {
     @Environment(AppViewModel.self) private var appViewModel
     @Environment(\.modelContext) private var modelContext
     @Environment(\.dismiss) private var dismiss
+    @Query(sort: \WeightEntry.date, order: .reverse) private var weightEntries: [WeightEntry]
 
     @State private var selectedPose: Pose = .front
     @State private var showCamera = false
@@ -155,6 +156,9 @@ struct PhotoCaptureSheet: View {
 
         let capturedPose = selectedPose
         let capturedNote = note.isEmpty ? nil : note
+        // Find today's weight to link with this photo
+        let todayWeight = weightEntries.first(where: { $0.date.isToday })?.weight
+            ?? weightEntries.first?.weight // fallback to most recent
 
         Task.detached(priority: .userInitiated) {
             guard let result = PhotoStorageManager.shared.savePhoto(image) else {
@@ -168,6 +172,7 @@ struct PhotoCaptureSheet: View {
                     fileName: result.photoName,
                     thumbnailName: result.thumbName,
                     pose: capturedPose,
+                    linkedWeight: todayWeight,
                     note: capturedNote
                 )
                 modelContext.insert(entry)

@@ -24,6 +24,7 @@ final class PhotoEntry {
     var fileName: String      // e.g. "photo_uuid.jpg" — stored in Documents/photos/
     var thumbnailName: String  // e.g. "thumb_uuid.jpg" — stored in Documents/thumbs/
     var pose: Pose
+    var linkedWeight: Double? // Weight (kg) on the day this photo was taken
     var note: String?
 
     init(
@@ -31,6 +32,7 @@ final class PhotoEntry {
         fileName: String,
         thumbnailName: String,
         pose: Pose,
+        linkedWeight: Double? = nil,
         note: String? = nil
     ) {
         self.id = UUID()
@@ -38,6 +40,7 @@ final class PhotoEntry {
         self.fileName = fileName
         self.thumbnailName = thumbnailName
         self.pose = pose
+        self.linkedWeight = linkedWeight
         self.note = note
     }
 }

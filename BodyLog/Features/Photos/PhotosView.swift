@@ -126,6 +126,10 @@ struct PhotoGridCell: View {
             VStack(alignment: .leading, spacing: 2) {
                 Text(photo.date.shortFormatted)
                     .font(BLTheme.bodyBold(12))
+                if let w = photo.linkedWeight {
+                    Text(String(format: "%.1f kg", w))
+                        .font(BLTheme.bodyBold(11))
+                }
                 Text(photo.pose.rawValue)
                     .font(BLTheme.caption(10))
             }
