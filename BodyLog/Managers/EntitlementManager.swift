@@ -9,7 +9,37 @@ final class EntitlementManager {
     private(set) var errorMessage: String?
 
     static let shared = EntitlementManager()
-    private init() {}
+    private init() {
+        // Record trial start on first launch
+        if UserDefaults.standard.object(forKey: "trialStartDate") == nil {
+            UserDefaults.standard.set(Date.now, forKey: "trialStartDate")
+        }
+    }
+
+    // MARK: - Trial
+
+    static let trialDays: Int = 3
+
+    var trialStartDate: Date {
+        UserDefaults.standard.object(forKey: "trialStartDate") as? Date ?? Date.now
+    }
+
+    var trialEndDate: Date {
+        Calendar.current.date(byAdding: .day, value: Self.trialDays, to: trialStartDate) ?? trialStartDate
+    }
+
+    var trialDaysRemaining: Int {
+        max(0, Calendar.current.dateComponents([.day], from: Date.now, to: trialEndDate).day ?? 0)
+    }
+
+    var isTrialActive: Bool {
+        Date.now < trialEndDate
+    }
+
+    /// User has access: either Pro subscriber OR within trial period
+    var hasAccess: Bool {
+        isPro || isTrialActive
+    }
 
     // MARK: - Setup
 

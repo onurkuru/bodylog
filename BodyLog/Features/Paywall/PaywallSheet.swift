@@ -14,21 +14,27 @@ struct PaywallSheet: View {
 
     enum PlanOption { case monthly, lifetime }
 
+    private var isDismissable: Bool {
+        trigger != .trialEnded
+    }
+
     var body: some View {
         ZStack {
             Color.black.ignoresSafeArea()
 
             VStack(spacing: BLTheme.spacingLG) {
-                // Close
+                // Close (only if dismissable)
                 HStack {
                     Spacer()
-                    Button { dismiss() } label: {
-                        Image(systemName: "xmark")
-                            .font(.system(size: 14, weight: .semibold))
-                            .foregroundStyle(.white.opacity(0.5))
-                            .frame(width: 32, height: 32)
-                            .background(.white.opacity(0.1))
-                            .clipShape(Circle())
+                    if isDismissable {
+                        Button { dismiss() } label: {
+                            Image(systemName: "xmark")
+                                .font(.system(size: 14, weight: .semibold))
+                                .foregroundStyle(.white.opacity(0.5))
+                                .frame(width: 32, height: 32)
+                                .background(.white.opacity(0.1))
+                                .clipShape(Circle())
+                        }
                     }
                 }
                 .padding(.horizontal, BLTheme.spacingLG)
@@ -46,7 +52,7 @@ struct PaywallSheet: View {
                 }
 
                 // Title
-                Text("Unlock\nBodyLog Pro")
+                Text(titleForTrigger)
                     .font(BLTheme.headlineSerif(36))
                     .foregroundStyle(.white)
                     .multilineTextAlignment(.center)
@@ -91,7 +97,7 @@ struct PaywallSheet: View {
                         if isPurchasing {
                             ProgressView().tint(.black)
                         } else {
-                            Text("Continue")
+                            Text(ctaText)
                                 .font(BLTheme.bodyBold(17))
                         }
                     }
@@ -103,6 +109,18 @@ struct PaywallSheet: View {
                 }
                 .disabled(isPurchasing)
                 .padding(.horizontal, BLTheme.spacingLG)
+
+                // "Start free trial" skip button (onboarding only)
+                if trigger == .onboarding {
+                    Button {
+                        dismiss()
+                    } label: {
+                        Text("Start \(EntitlementManager.trialDays)-Day Free Trial")
+                            .font(BLTheme.bodyBold(15))
+                            .foregroundStyle(.white.opacity(0.7))
+                    }
+                    .padding(.top, -8)
+                }
 
                 // Restore + Legal
                 VStack(spacing: 8) {
@@ -178,11 +196,29 @@ struct PaywallSheet: View {
 
     // MARK: - Logic
 
+    private var ctaText: String {
+        switch trigger {
+        case .onboarding: "Subscribe Now"
+        case .trialEnded: "Subscribe to Continue"
+        default: "Continue"
+        }
+    }
+
+    private var titleForTrigger: String {
+        switch trigger {
+        case .trialEnded: "Your Trial\nHas Ended"
+        case .onboarding: "Start Your\nFree Trial"
+        default: "Unlock\nBodyLog Pro"
+        }
+    }
+
     private var subtitleForTrigger: String {
         switch trigger {
         case .photoLimit: "You've built an amazing collection.\nUnlock unlimited photos to keep going."
         case .allTimeChart: "See your complete transformation\nstory from day one."
         case .csvExport: "Export all your weight data\nto a spreadsheet."
+        case .trialEnded: "Subscribe to continue tracking\nyour transformation."
+        case .onboarding: "Try everything free for \(EntitlementManager.trialDays) days.\nNo commitment, cancel anytime."
         }
     }
 

@@ -42,6 +42,8 @@ enum PaywallTrigger: String {
     case photoLimit
     case allTimeChart
     case csvExport
+    case trialEnded     // full-screen, non-dismissable
+    case onboarding     // after onboarding, dismissable (start trial)
 }
 
 @Observable

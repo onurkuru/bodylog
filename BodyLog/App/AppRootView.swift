@@ -3,9 +3,11 @@ import SwiftData
 
 struct AppRootView: View {
     @Environment(AppViewModel.self) private var appViewModel
+    @Environment(EntitlementManager.self) private var entitlementManager
     @Environment(\.modelContext) private var modelContext
     @Query private var settingsArray: [UserSettings]
     @State private var settingsReady = false
+    @State private var showOnboardingPaywall = false
 
     private var settings: UserSettings? { settingsArray.first }
 
@@ -30,6 +32,24 @@ struct AppRootView: View {
                 try? modelContext.save()
             }
             settingsReady = true
+        }
+        // Show paywall after onboarding completes (first time)
+        .onChange(of: settings?.onboardingCompleted) { _, newValue in
+            if newValue == true && !entitlementManager.isPro {
+                showOnboardingPaywall = true
+            }
+        }
+        .fullScreenCover(isPresented: $showOnboardingPaywall) {
+            PaywallSheet(trigger: .onboarding)
+        }
+        // Block access when trial expired and not Pro
+        .fullScreenCover(isPresented: .constant(
+            settingsReady &&
+            settings?.onboardingCompleted == true &&
+            !entitlementManager.hasAccess
+        )) {
+            PaywallSheet(trigger: .trialEnded)
+                .interactiveDismissDisabled()
         }
     }
 }

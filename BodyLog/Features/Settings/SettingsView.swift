@@ -166,6 +166,15 @@ struct SettingsView: View {
                                             .font(BLTheme.bodyBold())
                                             .foregroundStyle(BLTheme.textPrimary)
                                         Spacer()
+                                        if entitlementManager.isTrialActive {
+                                            Text("\(entitlementManager.trialDaysRemaining)d left")
+                                                .font(BLTheme.caption(12))
+                                                .foregroundStyle(BLTheme.accent)
+                                                .padding(.horizontal, 8)
+                                                .padding(.vertical, 3)
+                                                .background(BLTheme.accentLight)
+                                                .clipShape(Capsule())
+                                        }
                                         Image(systemName: "chevron.right")
                                             .font(.system(size: 11, weight: .semibold))
                                             .foregroundStyle(BLTheme.textTertiary)
