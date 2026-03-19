@@ -8,6 +8,7 @@ struct AppRootView: View {
     @Query private var settingsArray: [UserSettings]
     @State private var settingsReady = false
     @State private var showOnboardingPaywall = false
+    @State private var showSplash = true
 
     private var settings: UserSettings? { settingsArray.first }
 
@@ -15,7 +16,13 @@ struct AppRootView: View {
         ZStack {
             BLTheme.background.ignoresSafeArea()
 
-            if let settings, settingsReady {
+            if showSplash {
+                SplashView {
+                    showSplash = false
+                }
+                .transition(.opacity)
+                .zIndex(1)
+            } else if let settings, settingsReady {
                 if !settings.onboardingCompleted {
                     OnboardingContainerView()
                         .transition(.move(edge: .leading))
@@ -53,6 +60,65 @@ struct AppRootView: View {
         }
     }
 }
+
+// MARK: - Splash Screen
+
+struct SplashView: View {
+    @State private var iconScale: CGFloat = 0.6
+    @State private var iconOpacity: Double = 0
+    @State private var textOpacity: Double = 0
+    @State private var isFinished = false
+
+    let onFinish: () -> Void
+
+    var body: some View {
+        ZStack {
+            BLTheme.background.ignoresSafeArea()
+
+            VStack(spacing: 20) {
+                Image("SplashIcon")
+                    .resizable()
+                    .scaledToFit()
+                    .frame(width: 120, height: 120)
+                    .clipShape(RoundedRectangle(cornerRadius: 28, style: .continuous))
+                    .shadow(color: BLTheme.accent.opacity(0.3), radius: 20, x: 0, y: 8)
+                    .scaleEffect(iconScale)
+                    .opacity(iconOpacity)
+
+                VStack(spacing: 4) {
+                    Text("Bodygraph")
+                        .font(BLTheme.headlineSerif(28))
+                        .foregroundStyle(BLTheme.textPrimary)
+
+                    Text("Track With Your Photo")
+                        .font(BLTheme.body(14))
+                        .foregroundStyle(BLTheme.textTertiary)
+                }
+                .opacity(textOpacity)
+            }
+        }
+        .onAppear {
+            withAnimation(.spring(response: 0.6, dampingFraction: 0.7)) {
+                iconScale = 1.0
+                iconOpacity = 1.0
+            }
+            withAnimation(.easeOut(duration: 0.4).delay(0.3)) {
+                textOpacity = 1.0
+            }
+            DispatchQueue.main.asyncAfter(deadline: .now() + 1.6) {
+                withAnimation(.easeOut(duration: 0.3)) {
+                    isFinished = true
+                }
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+                    onFinish()
+                }
+            }
+        }
+        .opacity(isFinished ? 0 : 1)
+    }
+}
+
+// MARK: - Main Tab View
 
 struct MainTabView: View {
     @Environment(AppViewModel.self) private var appViewModel
