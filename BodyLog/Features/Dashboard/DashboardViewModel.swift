@@ -31,7 +31,6 @@ struct WeightStats {
 
 @Observable
 final class DashboardViewModel {
-    var selectedRange: ChartRange = .month
 
     // MARK: - Chart Data
 

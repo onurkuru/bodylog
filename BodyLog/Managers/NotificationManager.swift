@@ -1,9 +1,11 @@
 import Foundation
 import UserNotifications
 
-@Observable
+@MainActor @Observable
 final class NotificationManager {
     private(set) var isAuthorized: Bool = false
+    private var lastScheduledHour: Int = 20
+    private var lastScheduledMinute: Int = 0
 
     static let shared = NotificationManager()
     private let center = UNUserNotificationCenter.current()
@@ -35,6 +37,8 @@ final class NotificationManager {
 
     func scheduleDailyReminder(hour: Int, minute: Int, currentStreak: Int = 0) {
         guard isAuthorized else { return }
+        lastScheduledHour = hour
+        lastScheduledMinute = minute
         center.removePendingNotificationRequests(withIdentifiers: ["daily_weight_reminder"])
 
         let content = UNMutableNotificationContent()
@@ -60,10 +64,11 @@ final class NotificationManager {
         center.add(request)
     }
 
-    /// Cancel today's reminder if user already logged (call after weight save)
+    /// Cancel and re-schedule so today's pending notification is removed
+    /// but the repeating series continues tomorrow
     func suppressTodayIfLogged() {
         center.removePendingNotificationRequests(withIdentifiers: ["daily_weight_reminder"])
-        // Will be re-scheduled tomorrow via the repeating trigger
+        scheduleDailyReminder(hour: lastScheduledHour, minute: lastScheduledMinute)
     }
 
     func cancelDailyReminder() {

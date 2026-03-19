@@ -35,8 +35,6 @@ struct PhotoCompareView: View {
         return allPhotos
     }
 
-    private var beforePhotos: [PhotoEntry] { filteredPhotos }
-    private var afterPhotos: [PhotoEntry] { filteredPhotos }
 
     var body: some View {
         ZStack {
@@ -220,7 +218,7 @@ struct PhotoCompareView: View {
             dateSelector(
                 label: "Before",
                 current: currentBefore,
-                photos: beforePhotos.filter { $0.id != currentAfter?.id },
+                photos: filteredPhotos.filter { $0.id != currentAfter?.id },
                 onChange: { photo in
                     if canSelect(photo) { currentBefore = photo }
                 }
@@ -234,7 +232,7 @@ struct PhotoCompareView: View {
             dateSelector(
                 label: "After",
                 current: currentAfter,
-                photos: afterPhotos.filter { $0.id != currentBefore?.id },
+                photos: filteredPhotos.filter { $0.id != currentBefore?.id },
                 onChange: { photo in
                     if canSelect(photo) { currentAfter = photo }
                 }

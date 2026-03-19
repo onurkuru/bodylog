@@ -98,8 +98,9 @@ struct PhotoDetailView: View {
     }
 
     private func loadFullImage() {
+        let name = entry.fileName // capture on main actor
         Task.detached(priority: .userInitiated) {
-            let image = PhotoStorageManager.shared.loadFullPhoto(named: entry.fileName)
+            let image = PhotoStorageManager.shared.loadFullPhoto(named: name)
             await MainActor.run {
                 fullImage = image
             }

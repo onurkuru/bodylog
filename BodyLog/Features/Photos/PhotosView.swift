@@ -156,8 +156,9 @@ struct PhotoGridCell: View {
 
     private func loadThumbnail() {
         guard thumbnail == nil else { return }
+        let name = photo.thumbnailName // capture on main actor
         loadTask = Task.detached(priority: .userInitiated) {
-            let image = PhotoStorageManager.shared.loadThumbnail(named: photo.thumbnailName)
+            let image = PhotoStorageManager.shared.loadThumbnail(named: name)
             guard !Task.isCancelled else { return }
             await MainActor.run { thumbnail = image }
         }

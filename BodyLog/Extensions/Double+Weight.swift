@@ -25,10 +25,8 @@ extension Double {
     /// Split a kg value into picker components for the given display unit
     func toPickerComponents(unit: WeightUnit) -> (whole: Int, decimal: Int) {
         let display = unit == .lbs ? self.toLbs : self
-        let rounded = (display * 10).rounded() / 10
-        let whole = Int(rounded)
-        let decimal = Int((rounded - Double(whole)) * 10)
-        return (whole, decimal)
+        let tenths = Int((display * 10).rounded())
+        return (tenths / 10, tenths % 10)
     }
 
     /// Reassemble picker components back into kg
