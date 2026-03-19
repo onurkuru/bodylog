@@ -34,6 +34,7 @@ struct DashboardView: View {
             }
         }
         .onChange(of: entries.count) { updateWidgetData() }
+        .onChange(of: entries.first?.weight) { updateWidgetData() }
     }
 
     // MARK: - Header

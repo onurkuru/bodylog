@@ -33,6 +33,8 @@ enum WidgetDataStore {
         d?.set(entryDate.timeIntervalSince1970, forKey: Keys.lastEntryDate)
         if let goal = goalWeight {
             d?.set(goal, forKey: Keys.goalWeight)
+        } else {
+            d?.removeObject(forKey: Keys.goalWeight)
         }
         WidgetCenter.shared.reloadAllTimelines()
     }

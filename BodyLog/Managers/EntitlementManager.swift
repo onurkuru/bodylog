@@ -1,7 +1,7 @@
 import Foundation
 import RevenueCat
 
-@Observable
+@MainActor @Observable
 final class EntitlementManager {
     private(set) var isPro: Bool = false
     private(set) var currentOffering: Offering?

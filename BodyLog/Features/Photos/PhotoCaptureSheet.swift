@@ -153,27 +153,28 @@ struct PhotoCaptureSheet: View {
         guard let image = selectedImage else { return }
         isSaving = true
 
+        let capturedPose = selectedPose
+        let capturedNote = note.isEmpty ? nil : note
+
         Task.detached(priority: .userInitiated) {
             guard let result = PhotoStorageManager.shared.savePhoto(image) else {
                 await MainActor.run { isSaving = false }
                 return
             }
 
-            let entry = PhotoEntry(
-                date: .now,
-                fileName: result.photoName,
-                thumbnailName: result.thumbName,
-                pose: selectedPose,
-                note: note.isEmpty ? nil : note
-            )
-
             await MainActor.run {
+                let entry = PhotoEntry(
+                    date: .now,
+                    fileName: result.photoName,
+                    thumbnailName: result.thumbName,
+                    pose: capturedPose,
+                    note: capturedNote
+                )
                 modelContext.insert(entry)
                 isSaving = false
 
                 let generator = UINotificationFeedbackGenerator()
                 generator.notificationOccurred(.success)
-
                 dismiss()
             }
         }

@@ -103,8 +103,9 @@ struct AddWeightSheet: View {
     private func prefillLastWeight() {
         if let last = entries.first {
             let displayWeight = unit == .lbs ? last.weight.toLbs : last.weight
-            weightWhole = Int(displayWeight)
-            weightDecimal = Int((displayWeight - Double(Int(displayWeight))) * 10)
+            let rounded = (displayWeight * 10).rounded() / 10
+            weightWhole = Int(rounded)
+            weightDecimal = Int((rounded - Double(Int(rounded))) * 10)
         } else if unit == .lbs {
             weightWhole = 154
         }
@@ -113,9 +114,17 @@ struct AddWeightSheet: View {
     private func save() {
         let displayValue = Double(weightWhole) + Double(weightDecimal) / 10.0
         let weightInKg = unit == .lbs ? displayValue.toKg : displayValue
+        let noteValue = note.isEmpty ? nil : note
+        let behavior = settingsArray.first?.dailyEntryBehavior ?? .addNew
 
-        let entry = WeightEntry(date: selectedDate, weight: weightInKg, note: note.isEmpty ? nil : note)
-        modelContext.insert(entry)
+        if behavior == .updateExisting,
+           let existing = entries.first(where: { Calendar.current.isDate($0.date, inSameDayAs: selectedDate) }) {
+            existing.weight = weightInKg
+            existing.note = noteValue
+        } else {
+            let entry = WeightEntry(date: selectedDate, weight: weightInKg, note: noteValue)
+            modelContext.insert(entry)
+        }
 
         WidgetDataStore.update(
             lastWeight: weightInKg,
@@ -239,8 +248,9 @@ struct EditWeightSheet: View {
         }
         .onAppear {
             let displayWeight = unit == .lbs ? entry.weight.toLbs : entry.weight
-            weightWhole = Int(displayWeight)
-            weightDecimal = Int((displayWeight - Double(Int(displayWeight))) * 10)
+            let rounded = (displayWeight * 10).rounded() / 10
+            weightWhole = Int(rounded)
+            weightDecimal = Int((rounded - Double(Int(rounded))) * 10)
             note = entry.note ?? ""
         }
         .presentationDetents([.large])

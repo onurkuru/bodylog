@@ -34,6 +34,7 @@ final class NotificationManager {
     // MARK: - Daily Reminder
 
     func scheduleDailyReminder(hour: Int, minute: Int) {
+        guard isAuthorized else { return }
         // Remove existing before scheduling new
         center.removePendingNotificationRequests(withIdentifiers: ["daily_weight_reminder"])
 
@@ -65,7 +66,7 @@ final class NotificationManager {
     func scheduleStreakWarning(currentStreak: Int) {
         center.removePendingNotificationRequests(withIdentifiers: ["streak_warning"])
 
-        guard currentStreak > 0 else { return }
+        guard isAuthorized, currentStreak > 0 else { return }
 
         let content = UNMutableNotificationContent()
         content.title = "Don't break your streak!"

@@ -16,6 +16,7 @@ struct PhotoCompareView: View {
     @State private var showShareSheet = false
     @State private var shareImage: UIImage?
     @State private var showUpgradeHint = false
+    @State private var upgradeHintTask: Task<Void, Never>?
 
     var body: some View {
         ZStack {
@@ -48,6 +49,7 @@ struct PhotoCompareView: View {
             }
         }
         .onAppear { loadImages() }
+        .onDisappear { upgradeHintTask?.cancel() }
         .sheet(isPresented: $showShareSheet) {
             if let image = shareImage {
                 ShareSheet(items: [image])
@@ -224,7 +226,9 @@ struct PhotoCompareView: View {
 
         // Show upgrade hint for free users after delay
         if !entitlementManager.isPro {
-            DispatchQueue.main.asyncAfter(deadline: .now() + 5) {
+            upgradeHintTask = Task {
+                try? await Task.sleep(for: .seconds(5))
+                guard !Task.isCancelled else { return }
                 withAnimation { showUpgradeHint = true }
             }
         }

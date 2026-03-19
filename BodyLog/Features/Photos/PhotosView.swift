@@ -96,12 +96,8 @@ struct PhotosView: View {
     private func openCompare() {
         let sorted = photos.sorted { $0.date < $1.date }
         guard sorted.count >= 2 else { return }
-        if entitlementManager.isPro {
-            appViewModel.showPhotoCompare(before: sorted.first!, after: sorted.last!)
-        } else {
-            let last = sorted.suffix(2)
-            appViewModel.showPhotoCompare(before: last.first!, after: last.last!)
-        }
+        // Both free and pro: oldest vs newest (free can only see these two)
+        appViewModel.showPhotoCompare(before: sorted.first!, after: sorted.last!)
     }
 }
 

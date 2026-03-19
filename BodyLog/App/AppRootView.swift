@@ -5,27 +5,32 @@ struct AppRootView: View {
     @Environment(AppViewModel.self) private var appViewModel
     @Environment(\.modelContext) private var modelContext
     @Query private var settingsArray: [UserSettings]
+    @State private var settingsReady = false
 
-    private var settings: UserSettings {
-        if let existing = settingsArray.first { return existing }
-        let newSettings = UserSettings()
-        modelContext.insert(newSettings)
-        return newSettings
-    }
+    private var settings: UserSettings? { settingsArray.first }
 
     var body: some View {
         ZStack {
             BLTheme.background.ignoresSafeArea()
 
-            if !settings.onboardingCompleted {
-                OnboardingContainerView()
-                    .transition(.move(edge: .leading))
-            } else {
-                MainTabView()
-                    .transition(.move(edge: .trailing))
+            if let settings, settingsReady {
+                if !settings.onboardingCompleted {
+                    OnboardingContainerView()
+                        .transition(.move(edge: .leading))
+                } else {
+                    MainTabView()
+                        .transition(.move(edge: .trailing))
+                }
             }
         }
-        .animation(.easeInOut(duration: 0.4), value: settings.onboardingCompleted)
+        .animation(.easeInOut(duration: 0.4), value: settings?.onboardingCompleted)
+        .task {
+            if settingsArray.isEmpty {
+                modelContext.insert(UserSettings())
+                try? modelContext.save()
+            }
+            settingsReady = true
+        }
     }
 }
 

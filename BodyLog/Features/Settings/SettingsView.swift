@@ -12,6 +12,8 @@ struct SettingsView: View {
     @State private var showDeleteConfirmation = false
     @State private var showExportSheet = false
     @State private var csvURL: URL?
+    @State private var showExportError = false
+    @State private var exportErrorMessage = ""
 
     private var settings: UserSettings? { settingsArray.first }
 
@@ -251,6 +253,9 @@ struct SettingsView: View {
         .sheet(isPresented: $showExportSheet) {
             if let url = csvURL { ShareSheet(items: [url]) }
         }
+        .alert("Export Error", isPresented: $showExportError) {
+            Button("OK") {}
+        } message: { Text(exportErrorMessage) }
     }
 
     // MARK: - Helpers
@@ -315,9 +320,14 @@ struct SettingsView: View {
             csv += "\(date),\(weight),\(note)\n"
         }
         let tempURL = FileManager.default.temporaryDirectory.appendingPathComponent("BodyLog_Export.csv")
-        try? csv.write(to: tempURL, atomically: true, encoding: .utf8)
-        csvURL = tempURL
-        showExportSheet = true
+        do {
+            try csv.write(to: tempURL, atomically: true, encoding: .utf8)
+            csvURL = tempURL
+            showExportSheet = true
+        } catch {
+            exportErrorMessage = "Export failed: \(error.localizedDescription)"
+            showExportError = true
+        }
     }
 
     private func deleteAllData() {

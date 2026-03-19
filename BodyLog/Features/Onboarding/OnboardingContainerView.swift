@@ -9,13 +9,7 @@ struct OnboardingContainerView: View {
     @State private var selectedUnit: WeightUnit = .kg
     @State private var goalText: String = ""
 
-    private var settings: UserSettings {
-        settingsArray.first ?? {
-            let s = UserSettings()
-            modelContext.insert(s)
-            return s
-        }()
-    }
+    private var settings: UserSettings? { settingsArray.first }
 
     var body: some View {
         ZStack {
@@ -52,6 +46,7 @@ struct OnboardingContainerView: View {
     }
 
     private func completeOnboarding() {
+        guard let settings else { return }
         settings.unitPreference = selectedUnit
         if let v = Double(goalText), v > 0 {
             settings.goalWeight = selectedUnit == .lbs ? v.toKg : v

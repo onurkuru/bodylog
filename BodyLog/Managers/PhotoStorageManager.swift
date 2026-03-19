@@ -7,19 +7,19 @@ final class PhotoStorageManager {
 
     private let fileManager = FileManager.default
 
-    private var photosDirectory: URL {
-        let docs = fileManager.urls(for: .documentDirectory, in: .userDomainMask)[0]
-        let dir = docs.appendingPathComponent("photos", isDirectory: true)
+    private lazy var photosDirectory: URL = {
+        let dir = fileManager.urls(for: .documentDirectory, in: .userDomainMask)[0]
+            .appendingPathComponent("photos", isDirectory: true)
         ensureDirectory(dir)
         return dir
-    }
+    }()
 
-    private var thumbsDirectory: URL {
-        let docs = fileManager.urls(for: .documentDirectory, in: .userDomainMask)[0]
-        let dir = docs.appendingPathComponent("thumbs", isDirectory: true)
+    private lazy var thumbsDirectory: URL = {
+        let dir = fileManager.urls(for: .documentDirectory, in: .userDomainMask)[0]
+            .appendingPathComponent("thumbs", isDirectory: true)
         ensureDirectory(dir)
         return dir
-    }
+    }()
 
     private init() {}
 
