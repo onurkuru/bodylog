@@ -22,6 +22,7 @@ struct PhotoCompareView: View {
     @State private var shareImage: UIImage?
     @State private var showUpgradeHint = false
     @State private var upgradeHintTask: Task<Void, Never>?
+    @State private var imageLoadTask: Task<Void, Never>?
     @State private var selectedPose: Pose? = nil // nil = all poses
 
     private var unit: WeightUnit { settingsArray.first?.unitPreference ?? .kg }
@@ -76,6 +77,7 @@ struct PhotoCompareView: View {
             loadImages()
         }
         .onDisappear {
+            imageLoadTask?.cancel()
             upgradeHintTask?.cancel()
             RatingManager.markCompareUsed()
             RatingManager.requestIfEligible(entryCount: weightEntries.count)
@@ -280,12 +282,15 @@ struct PhotoCompareView: View {
         }
     }
 
-    /// Free users can only select the 2 most recent photos
+    /// IDs of photos the user is allowed to select (free: last 2 only)
+    private var selectableIDs: Set<UUID> {
+        if entitlementManager.isPro { return Set(filteredPhotos.map(\.id)) }
+        // filteredPhotos is sorted forward (oldest first) — last 2 are most recent
+        return Set(filteredPhotos.suffix(2).map(\.id))
+    }
+
     private func canSelect(_ photo: PhotoEntry) -> Bool {
-        if entitlementManager.isPro { return true }
-        let sorted = filteredPhotos.sorted { $0.date > $1.date }
-        let recentTwo = sorted.prefix(2)
-        return recentTwo.contains(where: { $0.id == photo.id })
+        selectableIDs.contains(photo.id)
     }
 
     // MARK: - Bottom Metadata
@@ -350,12 +355,15 @@ struct PhotoCompareView: View {
     // MARK: - Actions
 
     private func loadImages() {
+        imageLoadTask?.cancel()
         let beforeName = currentBefore?.fileName ?? beforeEntry.fileName
         let afterName = currentAfter?.fileName ?? afterEntry.fileName
 
-        Task.detached(priority: .userInitiated) {
-            let before = PhotoStorageManager.shared.loadFullPhoto(named: beforeName)
-            let after = PhotoStorageManager.shared.loadFullPhoto(named: afterName)
+        imageLoadTask = Task.detached(priority: .userInitiated) {
+            async let b = PhotoStorageManager.shared.loadFullPhoto(named: beforeName)
+            async let a = PhotoStorageManager.shared.loadFullPhoto(named: afterName)
+            let (before, after) = await (b, a)
+            guard !Task.isCancelled else { return }
             await MainActor.run {
                 beforeImage = before
                 afterImage = after

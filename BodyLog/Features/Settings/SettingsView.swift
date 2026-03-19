@@ -14,6 +14,7 @@ struct SettingsView: View {
     @State private var csvURL: URL?
     @State private var showExportError = false
     @State private var exportErrorMessage = ""
+    @State private var photoSizeLabel = "—"
 
     private var settings: UserSettings? { settingsArray.first }
 
@@ -233,7 +234,7 @@ struct SettingsView: View {
                             Divider().foregroundStyle(BLTheme.background)
 
                             settingRow(title: "Photo Storage") {
-                                Text(PhotoStorageManager.shared.totalPhotoSizeFormatted)
+                                Text(photoSizeLabel)
                                     .font(BLTheme.body())
                                     .foregroundStyle(BLTheme.textTertiary)
                             }
@@ -243,6 +244,10 @@ struct SettingsView: View {
                 .padding(.horizontal, BLTheme.spacingMD)
                 .padding(.bottom, BLTheme.spacingXL)
             }
+        }
+        .task {
+            let size = PhotoStorageManager.shared.totalPhotoSizeFormatted
+            await MainActor.run { photoSizeLabel = size }
         }
         .alert("Delete All Data?", isPresented: $showDeleteConfirmation) {
             Button("Delete Everything", role: .destructive) { deleteAllData() }
@@ -347,12 +352,7 @@ struct SettingsView: View {
     }
 
     private func formatTime(hour: Int, minute: Int) -> String {
-        let formatter = DateFormatter()
-        formatter.dateFormat = "h:mm a"
-        var components = DateComponents()
-        components.hour = hour
-        components.minute = minute
-        return formatter.string(from: Calendar.current.date(from: components) ?? .now)
+        Date.formatTime(hour: hour, minute: minute)
     }
 }
 

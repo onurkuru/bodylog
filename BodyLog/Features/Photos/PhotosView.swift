@@ -56,10 +56,10 @@ struct PhotosView: View {
                                         appViewModel.showPhotoDetail(photo)
                                     }
                                     .onLongPressGesture {
-                                        let sorted = photos.sorted { $0.date < $1.date }
-                                        guard let first = sorted.first, let last = sorted.last, sorted.count >= 2 else { return }
-                                        let after = photo.id == first.id ? last : photo
-                                        appViewModel.showPhotoCompare(before: first, after: after)
+                                        // photos is sorted reverse (newest first)
+                                        guard let oldest = photos.last, let newest = photos.first, photos.count >= 2 else { return }
+                                        let after = photo.id == oldest.id ? newest : photo
+                                        appViewModel.showPhotoCompare(before: oldest, after: after)
                                     }
                             }
                         }
@@ -102,11 +102,9 @@ struct PhotosView: View {
     }
 
     private func openCompare() {
-        let sorted = photos.sorted { $0.date < $1.date }
-        guard sorted.count >= 2 else { return }
-        // Both free and pro: oldest vs newest (free can only see these two)
-        guard let first = sorted.first, let last = sorted.last else { return }
-        appViewModel.showPhotoCompare(before: first, after: last)
+        // photos is sorted reverse (newest first)
+        guard photos.count >= 2, let oldest = photos.last, let newest = photos.first else { return }
+        appViewModel.showPhotoCompare(before: oldest, after: newest)
     }
 }
 
@@ -116,6 +114,7 @@ struct PhotoGridCell: View {
     let photo: PhotoEntry
     let unit: WeightUnit
     @State private var thumbnail: UIImage?
+    @State private var loadTask: Task<Void, Never>?
 
     var body: some View {
         ZStack(alignment: .bottomLeading) {
@@ -152,11 +151,14 @@ struct PhotoGridCell: View {
         .clipShape(RoundedRectangle(cornerRadius: BLTheme.radiusMD))
         .shadow(color: .black.opacity(0.04), radius: 8, x: 0, y: 2)
         .onAppear { loadThumbnail() }
+        .onDisappear { loadTask?.cancel() }
     }
 
     private func loadThumbnail() {
-        Task.detached(priority: .userInitiated) {
+        guard thumbnail == nil else { return }
+        loadTask = Task.detached(priority: .userInitiated) {
             let image = PhotoStorageManager.shared.loadThumbnail(named: photo.thumbnailName)
+            guard !Task.isCancelled else { return }
             await MainActor.run { thumbnail = image }
         }
     }

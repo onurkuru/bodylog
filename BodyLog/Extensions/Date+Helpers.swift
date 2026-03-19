@@ -1,5 +1,26 @@
 import Foundation
 
+// MARK: - Cached DateFormatters (allocated once, reused)
+
+private let shortDateFormatter: DateFormatter = {
+    let f = DateFormatter()
+    f.dateFormat = "MMM d"
+    return f
+}()
+
+private let mediumDateFormatter: DateFormatter = {
+    let f = DateFormatter()
+    f.dateStyle = .medium
+    f.timeStyle = .none
+    return f
+}()
+
+private let timeFormatter: DateFormatter = {
+    let f = DateFormatter()
+    f.dateFormat = "h:mm a"
+    return f
+}()
+
 extension Date {
     /// Start of day for date comparison
     var startOfDay: Date {
@@ -18,17 +39,12 @@ extension Date {
 
     /// Short display format: "Mar 19"
     var shortFormatted: String {
-        let formatter = DateFormatter()
-        formatter.dateFormat = "MMM d"
-        return formatter.string(from: self)
+        shortDateFormatter.string(from: self)
     }
 
     /// Medium display format: "Mar 19, 2026"
     var mediumFormatted: String {
-        let formatter = DateFormatter()
-        formatter.dateStyle = .medium
-        formatter.timeStyle = .none
-        return formatter.string(from: self)
+        mediumDateFormatter.string(from: self)
     }
 
     /// Relative display: "Today", "Yesterday", or short format
@@ -49,5 +65,14 @@ extension Date {
     /// Date N days ago
     static func daysAgo(_ days: Int) -> Date {
         Calendar.current.date(byAdding: .day, value: -days, to: .now) ?? .now
+    }
+
+    /// Format time from components (used in Settings)
+    static func formatTime(hour: Int, minute: Int) -> String {
+        var components = DateComponents()
+        components.hour = hour
+        components.minute = minute
+        let date = Calendar.current.date(from: components) ?? .now
+        return timeFormatter.string(from: date)
     }
 }
