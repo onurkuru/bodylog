@@ -21,6 +21,12 @@ private let timeFormatter: DateFormatter = {
     return f
 }()
 
+private let monthYearFormatter: DateFormatter = {
+    let f = DateFormatter()
+    f.dateFormat = "MMMM yyyy"
+    return f
+}()
+
 extension Date {
     /// Start of day for date comparison
     var startOfDay: Date {
@@ -65,6 +71,11 @@ extension Date {
     /// Date N days ago
     static func daysAgo(_ days: Int) -> Date {
         Calendar.current.date(byAdding: .day, value: -days, to: .now) ?? .now
+    }
+
+    /// Month + year: "March 2026" (for timeline grouping)
+    var monthYearFormatted: String {
+        monthYearFormatter.string(from: self)
     }
 
     /// Format time from components (used in Settings)
