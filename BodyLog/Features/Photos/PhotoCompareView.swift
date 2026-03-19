@@ -72,6 +72,10 @@ struct PhotoCompareView: View {
         .onAppear {
             currentBefore = beforeEntry
             currentAfter = afterEntry
+            // Auto-select pose filter if both entries share the same pose
+            if beforeEntry.pose == afterEntry.pose {
+                selectedPose = beforeEntry.pose
+            }
             loadImages()
         }
         .onDisappear {
@@ -191,13 +195,20 @@ struct PhotoCompareView: View {
     private func poseTab(_ label: String, pose: Pose?) -> some View {
         Button {
             selectedPose = pose
-            // Reset selections if current ones don't match new filter
+            // Compute new filtered set inline (SwiftUI batches state, so
+            // the computed `filteredPhotos` still reflects the OLD pose)
+            let newFiltered: [PhotoEntry]
+            if let pose {
+                newFiltered = allPhotos.filter { $0.pose == pose }
+            } else {
+                newFiltered = Array(allPhotos)
+            }
             if let pose {
                 if currentBefore?.pose != pose {
-                    currentBefore = filteredPhotos.first
+                    currentBefore = newFiltered.first
                 }
                 if currentAfter?.pose != pose {
-                    currentAfter = filteredPhotos.last
+                    currentAfter = newFiltered.last
                 }
             }
         } label: {

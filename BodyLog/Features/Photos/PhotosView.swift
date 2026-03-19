@@ -8,7 +8,13 @@ struct PhotosView: View {
     @Query(sort: \PhotoEntry.date, order: .reverse) private var photos: [PhotoEntry]
     @Query private var settingsArray: [UserSettings]
 
+    @State private var selectedPose: Pose? = nil
+
     private var unit: WeightUnit { settingsArray.first?.unitPreference ?? .kg }
+    private var displayedPhotos: [PhotoEntry] {
+        guard let pose = selectedPose else { return photos }
+        return photos.filter { $0.pose == pose }
+    }
     private let columns = [
         GridItem(.flexible(), spacing: 10),
         GridItem(.flexible(), spacing: 10)
@@ -48,17 +54,23 @@ struct PhotosView: View {
                                 .foregroundStyle(BLTheme.textTertiary)
                         }
 
+                        // Pose filter
+                        poseFilterBar
+
                         // Grid
                         LazyVGrid(columns: columns, spacing: 10) {
-                            ForEach(photos) { photo in
+                            ForEach(displayedPhotos) { photo in
                                 PhotoGridCell(photo: photo, unit: unit)
                                     .onTapGesture {
                                         appViewModel.showPhotoDetail(photo)
                                     }
                                     .onLongPressGesture {
-                                        // photos is sorted reverse (newest first)
-                                        guard let oldest = photos.last, let newest = photos.first, photos.count >= 2 else { return }
-                                        let after = photo.id == oldest.id ? newest : photo
+                                        // Filter to same pose as tapped photo
+                                        let samePose = photos.filter { $0.pose == photo.pose }
+                                        guard samePose.count >= 2 else { return }
+                                        // samePose is newest-first (from @Query reverse order)
+                                        let oldest = samePose.last!
+                                        let after = photo.id == oldest.id ? samePose.first! : photo
                                         appViewModel.showPhotoCompare(before: oldest, after: after)
                                     }
                             }
@@ -93,6 +105,37 @@ struct PhotosView: View {
         }
     }
 
+    private var poseFilterBar: some View {
+        HStack(spacing: 6) {
+            poseChip("All", pose: nil)
+            ForEach(Pose.allCases) { pose in
+                poseChip(pose.rawValue, pose: pose)
+            }
+        }
+    }
+
+    private func poseChip(_ label: String, pose: Pose?) -> some View {
+        let isSelected = selectedPose == pose
+        let count = pose == nil ? photos.count : photos.filter { $0.pose == pose }.count
+        return Button {
+            withAnimation(.easeInOut(duration: 0.2)) { selectedPose = pose }
+        } label: {
+            HStack(spacing: 4) {
+                Text(label)
+                if count > 0 {
+                    Text("\(count)")
+                        .font(BLTheme.caption(10))
+                        .foregroundStyle(isSelected ? .white.opacity(0.8) : BLTheme.textTertiary)
+                }
+            }
+            .font(BLTheme.caption(13))
+            .padding(.horizontal, 12).padding(.vertical, 6)
+            .foregroundStyle(isSelected ? .white : BLTheme.textPrimary)
+            .background(isSelected ? BLTheme.accent : BLTheme.cardBackground)
+            .clipShape(Capsule())
+        }
+    }
+
     private func addPhoto() {
         if !entitlementManager.isPro && photos.count >= Config.freePhotoLimit {
             appViewModel.showPaywall(trigger: .photoLimit)
@@ -102,8 +145,12 @@ struct PhotosView: View {
     }
 
     private func openCompare() {
-        // photos is sorted reverse (newest first)
-        guard photos.count >= 2, let oldest = photos.last, let newest = photos.first else { return }
+        guard photos.count >= 2 else { return }
+        // Pick most common pose, then compare oldest vs newest of that pose
+        let poseCounts = Dictionary(grouping: photos, by: \.pose)
+        let bestPose = poseCounts.max(by: { $0.value.count < $1.value.count })!.key
+        let samePose = photos.filter { $0.pose == bestPose }
+        guard samePose.count >= 2, let newest = samePose.first, let oldest = samePose.last else { return }
         appViewModel.showPhotoCompare(before: oldest, after: newest)
     }
 }
